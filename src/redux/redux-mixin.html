@@ -1,0 +1,35 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/polymer-redux/polymer-redux.html">
+
+<script>
+	const initialState = {
+		players: [],
+	};
+
+	const reducer = (state, action) => {
+		console.log(state, action);
+		
+		if (!state) {
+			return initialState;
+		}
+
+		const players = state.players.slice(0);
+
+		switch (action.type) {
+			case 'ADD_PLAYER':
+				players.push(action.player);
+				break;
+			case 'REMOVE_PLAYER':
+				players.splice(players.indexOf(action.player), 1);
+				break;
+		}
+		console.log('players inside reducer: ',  players);
+		
+		return Object.assign({}, state, {players: players});
+	};
+	
+	// Create a Redux store
+	const store = Redux.createStore(reducer);
+	// eslint-disable-next-line no-unused-vars
+	const ReduxMixin = PolymerRedux(store);
+</script>

@@ -1,0 +1,47 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+
+<!-- shared styles for all views -->
+<dom-module id="shared-styles">
+  <template>
+    <style>
+      :host {
+        --app-light-red: #FF2029;
+        --app-medium-red: #e32227;
+        --app-dark-red: #91040a;
+        --app-white: #ffffff;
+        margin-top: 80px;
+      }
+
+      /* Elements */
+      h1,
+      h2 {
+        margin: 16px 0;
+        color: var(--app-white);
+        font-size: 2rem;
+      }
+      h2 {
+        margin: 16px 0;
+        font-size: 1.5rem;
+      }
+
+      a {
+        color: var(--app-white);
+        text-decoration: none;
+      }
+
+      a:hover {
+        filter: brightness(0.9);
+      }
+
+      /* Class */
+      .bg-gradient {
+        background: var(--app-dark-red);
+        background: -moz-linear-gradient(0deg, var(--app-dark-red) 0%, var(--app-medium-red) 100%);
+        background: -webkit-linear-gradient(0deg, var(--app-dark-red) 0%, var(--app-medium-red) 100%);
+        background: linear-gradient(0deg, var(--app-dark-red) 0%, var(--app-medium-red) 100%);
+      }
+      
+
+    </style>
+  </template>
+</dom-module>

@@ -1,0 +1,39 @@
+
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="shared-styles.html">
+
+<dom-module id="my-view404">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+        padding: 10px 20px;
+      }
+      .container {
+        text-align: center;
+      }
+      img {
+        margin-top: 3rem;
+      }
+    </style>
+
+    <div class="container">
+      <h1>There does not seem to be anything around here.</h1>
+      <h2>Please <a href="[[rootPath]]">go to home.</a></h2>
+      <img src="images/404_error.jpg" alt="Not found">
+    </div>
+  </template>
+
+  <script>
+    class MyView404 extends Polymer.Element {
+      static get is() { return 'my-view404'; }
+      static get properties() {
+        return {
+          rootPath: String,
+        };
+      }
+    }
+
+    window.customElements.define(MyView404.is, MyView404);
+  </script>
+</dom-module>

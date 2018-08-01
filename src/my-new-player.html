@@ -1,0 +1,146 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="redux/redux-mixin.html">
+
+<dom-module id="my-new-player">
+	<template>
+		<style>
+			:host {
+				display: block;
+				max-width: 400px;
+				--button-bg-color: #ffffff;
+				--button-text-color: #FF2029;
+				--button-padding: 2rem 1rem;
+				--button-font-size: 25px;
+			}
+
+			.custom-input iron-icon {
+				margin-right: .4rem;
+			}
+
+			.big {
+				--iron-icon-height: 40px;
+				--iron-icon-width: 40px;
+			}
+
+			.button {
+				background-color: var(--button-bg-color);
+				color: var(--button-text-color);
+				display: flex;
+				flex-direction: column;
+				padding: var(--button-padding);
+			}
+
+			.button.disabled {
+				filter: grayscale();
+			}
+
+			.button p {
+				display: block;
+				font-size: var(--button-font-size, 50px);
+				margin: 0;
+				width: 100%;
+				text-align: center;
+			}
+
+			.button p.first {
+				margin-bottom: 1.5rem;
+			}
+		</style>
+
+		<paper-button id="addButton" class="button" toggles raised on-click="_openModal">
+			<p class="first">
+				<iron-icon class="big" icon="icons:add-circle"></iron-icon>
+			</p>
+			<p>Add new player</p>
+		</paper-button>
+
+		<pre>[[players]]</pre>
+
+		<paper-dialog id="modal" modal>
+			<h2>New Player</h2>
+			<paper-input id="input" label="Name" class="custom-input" on-keydown="_addOnEnter" autofocus maxlength="10">
+				<iron-icon icon="icons:perm-identity" slot="prefix"></iron-icon>
+			</paper-input>
+			<div class="buttons">
+				<paper-button dialog-dismiss>Cancel</paper-button>
+				<paper-button dialog-confirm on-click="_addOnSubmit">Accept</paper-button>
+			</div>
+		</paper-dialog>
+		<!-- <paper-input id="input" label="Add todo (press enter)"></paper-input> -->
+
+	</template>
+
+	<script>
+		// eslint-disable-next-line no-undef
+		class MyNewPlayer extends ReduxMixin(Polymer.Element) {
+			static get is() {
+				return 'my-new-player';
+			}
+
+			static get properties() {
+				return {
+					players: {
+						type: Array,
+						statePath: 'players',
+						observer: '_getClass'
+					},
+				};
+			}
+
+			static get actions() {
+				return {
+					add: (player) => {
+						return {
+							type: 'ADD_PLAYER',
+							player: player,
+						};
+					},
+				};
+			}
+
+			_addOnEnter(e) {
+				const input = this.$.input;
+				if (e.keyCode !== 13 || !input.value) {
+					return;
+				}
+				// 'add' refers to the above created action
+				this.dispatch('add', input.value);
+				input.value = null;
+				this._closeModal();
+			}
+
+			_addOnSubmit(e) {
+				const input = this.$.input;
+				if (!input.value) {
+					return;
+				}
+				// 'add' refers to the above created action
+				this.dispatch('add', input.value);
+				input.value = null;
+			}
+
+			_openModal(e) {
+				this.$.modal.open();
+			}
+
+			_closeModal() {
+				this.$.modal.close();
+			}
+
+			_getClass() {
+				if (this.players.length === 6) {
+					const button = this.shadowRoot.querySelector('#addButton');
+					button.classList.add('disabled');
+					this.$.addButton.setAttribute('disabled', true);
+				}
+			}
+		}
+
+		window.customElements.define(MyNewPlayer.is, MyNewPlayer);
+	</script>
+</dom-module>

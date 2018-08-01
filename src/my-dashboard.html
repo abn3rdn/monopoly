@@ -1,0 +1,69 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<!-- <link rel="import" href="../bower_components/iron-ajax/iron-ajax.html"> -->
+<link rel="import" href="../bower_components/polymer/lib/elements/dom-repeat.html">
+<link rel="import" href="../bower_components/app-storage/app-localstorage/app-localstorage-document.html">
+<link rel="import" href="my-new-player.html">
+<link rel="import" href="shared-styles.html">
+
+<dom-module id="my-dashboard">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+        padding: 10px;
+      }
+      .container {
+        display: flex;
+        justify-content: space-between;
+        max-width: 1366px;
+        padding: 0 16px;
+      }
+    </style>
+
+    <div class="container">
+      <div class="players"></div>
+      <div class="new_player">
+        <my-new-player></my-new-player>
+      </div>
+    </div>
+    <!-- <iron-ajax auto url="https://rickandmortyapi.com/api/character" handle-as="json" on-response="handleResponse" last-response="{{characters}}"
+    debounce-duration="300"></iron-ajax> -->
+
+    <!-- <div class="cards">
+      <template is="dom-repeat" items="[[characters.results]]" as="character">
+          <a href="[[rootPath]]detail?id=[[character.id]]">
+            <div class="card" class$="{{_getClass(character.status)}}">
+              <img src="[[character.image]]">
+              <h2>[[character.name]]</h2>
+              <p class="specie">[[character.species]]</p>
+              <p class="status">[[character.status]]</p>
+            </div>
+          </a>
+      </template> -->
+      <!-- <app-localstorage-document key="characters" data="{{characters}}">
+      </app-localstorage-document> -->
+    <!-- </div> -->
+  </template>
+
+  <script>
+    class MyDashboard extends Polymer.Element {
+      static get is() { return 'my-dashboard'; }
+      static get properties() {
+        return {
+          players: {
+            type: Array,
+            value: []
+          }
+        };
+      }
+
+      handleResponse(e) {
+        console.log(this.players);
+      }
+
+
+    }
+
+    window.customElements.define(MyDashboard.is, MyDashboard);
+  </script>
+</dom-module>
