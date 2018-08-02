@@ -1,11 +1,13 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../bower_components/polymer/lib/elements/dom-repeat.html">
+<link rel="import" href="../bower_components/polymer/lib/elements/dom-if.html">
 <link rel="import" href="../bower_components/app-storage/app-localstorage/app-localstorage-document.html">
 <link rel="import" href="my-new-player.html">
 <link rel="import" href="my-start-game-button.html">
 <link rel="import" href="my-players-table.html">
 <link rel="import" href="shared-styles.html">
 <link rel="import" href="my-player-card.html">
+<link rel="import" href="redux/redux-mixin.html">
 
 <dom-module id="my-dashboard">
   <template>
@@ -24,6 +26,8 @@
       }
       .players {
         grid-column: 1/3;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
       }
       .new_player {
         grid-column: 3/4;
@@ -42,43 +46,88 @@
 
     <div class="container bg-gradient">
       <div class="players">
-        <my-player-card player-info="[[playerInfo]]"></my-player-card>
+        <template is="dom-repeat" items="{{players}}" as="player">
+          <my-player-card player-info="[[player]]"></my-player-card>
+        </template>
       </div>
       <div class="new_player">
         <my-new-player></my-new-player>
       </div>
       <div class="start_button">
+        <template is="dom-if" if={{!started}}>
           <my-start-game-button></my-start-game-button>
+        </template>
+        <template is="dom-if" if={{started}}>
+          <my-players-table>
+        </template>
       </div>
     </div>
   </template>
 
   <script>
-    class MyDashboard extends Polymer.Element {
+    class MyDashboard extends ReduxMixin(Polymer.Element) {
       static get is() { return 'my-dashboard'; }
       static get properties() {
         return {
           players: {
             type: Array,
-            value: []
+            statePath: 'players'
           },
-          playerInfo: {
-            type: Object,
-            value: {
-              id: 1,
-              name: "Jugador Falso",
-              avatar: "https://silviaolmedo.com/wp-content/uploads/2015/11/facebook.jpg",
-              casilla: 2,
-              status: "playing",
-              money: 500000,
-              properties: [1, 2, 12]
-            }
+          started: {
+            type: Boolean,
+            value: false
           }
         };
       }
 
+      static get actions() {
+				return {
+					add: (player) => {
+						return {
+							type: 'ADD_PLAYER',
+							player: player,
+						};
+					},
+				};
+			}
+
+      connectedCallback() {
+        super.connectedCallback();
+        this.addEventListener('game-started', this._gameStarted);
+        this._getPlayers();
+      }
+
       handleResponse(e) {
         console.log(this.players);
+      }
+
+      _getPlayers() {
+        fetch('src/api/db.json')
+        .then(
+          (response) => {
+            if (response.status !== 200) {
+              console.log('Looks like there was a problem. Status Code: ' +
+                response.status);
+              return;
+            }
+
+            // Examine the text in the response
+            response.json().then((data) => {
+              const players = data.players;
+              players.forEach(element => {
+                this.dispatch('add', element);
+              });
+            });
+          }
+        )
+        .catch(function(err) {
+          console.log('Fetch Error :-S', err);
+        });
+      }
+
+      _gameStarted() {
+        console.log('Game started');
+        this.started = true;
       }
 
     }

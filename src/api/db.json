@@ -1,0 +1,31 @@
+{
+  "players": [
+    {
+      "id": 1,
+      "name": "Jugador Falso",
+      "avatar": "https://silviaolmedo.com/wp-content/uploads/2015/11/facebook.jpg",
+      "casilla": 2,
+      "status": "playing",
+      "money": 500000,
+      "properties": [1, 2, 12]
+    },
+    {
+      "id": 2,
+      "name": "Jugador Falso1",
+      "avatar": "https://silviaolmedo.com/wp-content/uploads/2015/11/facebook.jpg",
+      "casilla": 3,
+      "status": "playing",
+      "money": 1100000,
+      "properties": [10, 11]
+    },
+    {
+      "id": 1,
+      "name": "Jugador Falso2",
+      "avatar": "https://silviaolmedo.com/wp-content/uploads/2015/11/facebook.jpg",
+      "casilla": 4,
+      "status": "playing",
+      "money": 67988,
+      "properties": [5]
+    }
+  ]
+}
