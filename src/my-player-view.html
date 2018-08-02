@@ -3,6 +3,7 @@
   <link rel="import" href="/bower_components/app-route/app-route.html">
   <link rel="import" href="/bower_components/iron-ajax/iron-ajax.html">
   <link rel="import" href="my-player-card.html">
+  <link rel="import" href="dice-component.html">
   <link rel="import" href="./properties-component.html">
 
   <dom-module id="my-player-view">
@@ -31,6 +32,10 @@
           padding: 50px;
           min-height: 590px;
         }
+        .contPD{
+          display: flex;
+          justify-content: space-between;
+        }
       </style>
 
       <app-route
@@ -50,8 +55,10 @@
 
       <template is="dom-if" if="[[!error]]">
         <!--player-card player-info="{{response}}" detail-player></player-card-->
-        <my-player-card player-info="[[playerInfo]]" detail-player></my-player-card>
-
+        <div class="contPD">
+          <my-player-card player-info="[[playerInfo]]" detail-player></my-player-card>
+          <dice-component></dice-component>
+        </div>
         <properties-component on-mortgage="mortgage" ></properties-component>
       </template>
 

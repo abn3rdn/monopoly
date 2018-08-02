@@ -1,0 +1,161 @@
+<link rel="import" href="/bower_components/polymer/polymer-element.html">
+<link rel="import" href="/bower_components/polymer/lib/elements/dom-if.html">
+
+
+
+<dom-module id="dice-component">
+  
+  <template>
+    <style>
+        @import url("https://fonts.googleapis.com/css?family=Indie+Flower");
+       
+       .containerDices
+        {
+          height: 100%;
+          font-family:  sans-serif;
+          background-color: #303030;
+          color: #fff;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          flex-direction: column;
+          -webkit-user-select: none;
+             -moz-user-select: none;
+              -ms-user-select: none;
+                  user-select: none;
+        }
+
+
+        @-webkit-keyframes spindice {
+          0% {
+            -webkit-transform: rotate(0deg);
+                    transform: rotate(0deg);
+            -webkit-filter: blur(5px);
+                    filter: blur(5px);
+          }
+          100% {
+            -webkit-transform: rotate(360deg);
+                    transform: rotate(360deg);
+            -webkit-filter: blur(5px);
+                    filter: blur(5px);
+          }
+        }
+
+        @keyframes spindice {
+          0% {
+            -webkit-transform: rotate(0deg);
+                    transform: rotate(0deg);
+            -webkit-filter: blur(5px);
+                    filter: blur(5px);
+          }
+          100% {
+            -webkit-transform: rotate(360deg);
+                    transform: rotate(360deg);
+            -webkit-filter: blur(5px);
+                    filter: blur(5px);
+          }
+        }
+        img {
+          width: 160px;
+          padding: 5px;
+          -webkit-animation: none;
+                  animation: none;
+        }
+
+        div {
+          font-size: 15px;
+          color: #fff;
+          background-color: #d72e2e;
+          height: auto;
+          border: none;
+          padding: 0.1% 14%;
+          border-radius: 0px;
+          cursor: pointer;
+          transition: all 0.5s;
+        }
+        div:hover {
+          background-color: #fff;
+          color: #303030;
+        }
+        h1  {
+          font-size: 15px;
+        }
+        .tiraDice{
+          width: 35px;
+          margin-top: 15px;
+          padding: 20px;
+        }
+    </style>
+
+    <div class="containerDices">
+      <img src="https://bit.ly/dice-unknown" id="dice1"/>
+      <img src="https://bit.ly/dice-unknown" id="dice2"/>
+      <div on-click="_rollThatDice" class="tiraDice">Tirar!</div>
+      <audio src="https://bit.ly/dice-sound" id="audio"></audio>
+    </div>
+  </template>
+
+
+  <script>
+    (function diceComponent(customElements) {
+      'use strict';
+
+      class DiceComponent extends Polymer.Element {
+        static get is() { return 'dice-component'; }
+        static get properties() {
+          return {
+            diceFaces:
+            {
+              type: Array,
+              value: [
+                "https://bit.ly/dice-unknown",
+                "https://bit.ly/dice-one",
+                "https://bit.ly/dice-two",
+                "https://bit.ly/dice-three",
+                "https://bit.ly/dice-four",
+                "https://bit.ly/dice-five",
+                "https://bit.ly/dice-six"
+              ]
+            }
+
+          }
+        }        
+
+        _getRandomInt(min, max) {
+          min = Math.ceil(min);
+          max = Math.floor(max);
+          return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        _rollThatDice() {
+          const image1 = this.$.dice1;
+          const image2 = this.$.dice2;
+          const audio = this.$.audio;
+          audio.currentTime = 0;
+          
+          image1.style.animation = "spindice 0.95s"
+          image2.style.animation = "spindice 0.95s"
+
+          setTimeout(() => {
+            image1.setAttribute("src", this.diceFaces[this._getRandomInt(1, 6)]);
+            image2.setAttribute("src", this.diceFaces[this._getRandomInt(1, 6)]);
+                               }, 25);
+          
+          setTimeout(() => { 
+            image1.style.animation = "none"
+            image2.style.animation = "none"
+                               }, 250);
+          audio.play();
+        }
+        /*
+        document.addEventListener("DOMContentLoaded", function(event) {
+            rollThatDice();
+        });
+        */
+      }
+    customElements.define(DiceComponent.is, DiceComponent);
+    })(window.customElements);
+  </script>
+
+
+</dom-module>
