@@ -60,11 +60,9 @@
 			<p>Add new player</p>
 		</paper-button>
 
-		<pre>[[players]]</pre>
-
 		<paper-dialog id="modal" modal>
 			<h2>New Player</h2>
-			<paper-input id="input" label="Name" class="custom-input" on-keydown="_addOnEnter" autofocus maxlength="10">
+			<paper-input id="input" label="Name" class="custom-input" autofocus maxlength="10">
 				<iron-icon icon="icons:perm-identity" slot="prefix"></iron-icon>
 			</paper-input>
 			<div class="buttons">
@@ -104,24 +102,21 @@
 				};
 			}
 
-			_addOnEnter(e) {
-				const input = this.$.input;
-				if (e.keyCode !== 13 || !input.value) {
-					return;
-				}
-				// 'add' refers to the above created action
-				this.dispatch('add', input.value);
-				input.value = null;
-				this._closeModal();
-			}
-
 			_addOnSubmit(e) {
 				const input = this.$.input;
 				if (!input.value) {
 					return;
 				}
+				const user = {
+					"name": input.value,
+					"avatar": "null",
+					"casilla": "null",
+					"status": "null",
+					"money": "0",
+					"properties": []
+				}
 				// 'add' refers to the above created action
-				this.dispatch('add', input.value);
+				this.dispatch('add', user);
 				input.value = null;
 			}
 
