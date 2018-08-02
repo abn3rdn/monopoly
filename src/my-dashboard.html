@@ -4,6 +4,7 @@
 <link rel="import" href="my-new-player.html">
 <link rel="import" href="my-players-table.html">
 <link rel="import" href="shared-styles.html">
+<link rel="import" href="my-player-card.html">
 
 <dom-module id="my-dashboard">
   <template>
@@ -34,7 +35,7 @@
 
     <div class="container bg-gradient">
       <div class="players">
-        <my-players-table></my-players-table>
+        <my-player-card player-info="[[playerInfo]]"></my-player-card>
       </div>
       <div class="new_player">
         <my-new-player></my-new-player>
@@ -50,6 +51,18 @@
           players: {
             type: Array,
             value: []
+          },
+          playerInfo: {
+            type: Object,
+            value: {
+              id: 1,
+              name: "Jugador Falso",
+              avatar: "https://silviaolmedo.com/wp-content/uploads/2015/11/facebook.jpg",
+              casilla: 2,
+              status: "playing",
+              money: 500000,
+              properties: [1, 2, 12]
+            }
           }
         };
       }
