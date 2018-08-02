@@ -3,6 +3,7 @@
   <link rel="import" href="/bower_components/app-route/app-route.html">
   <link rel="import" href="/bower_components/iron-ajax/iron-ajax.html">
   <link rel="import" href="my-player-card.html">
+  <link rel="import" href="./properties-component.html">
 
   <dom-module id="my-player-view">
     <template>
@@ -50,6 +51,8 @@
       <template is="dom-if" if="[[!error]]">
         <!--player-card player-info="{{response}}" detail-player></player-card-->
         <my-player-card player-info="[[playerInfo]]" detail-player></my-player-card>
+
+        <properties-component on-mortgage="mortgage" ></properties-component>
       </template>
 
       <template is="dom-if" if="[[error]]">
@@ -125,6 +128,9 @@
             } else {
               this.set('newBox', newBox);
             }
+          }
+          mortgage(event){
+            console.log(event);
           }
         }
         customElements.define(MyPlayerView.is, MyPlayerView);
