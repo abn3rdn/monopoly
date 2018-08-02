@@ -1,5 +1,4 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
-<!-- <link rel="import" href="../bower_components/app-layout/app-drawer/app-drawer.html"> -->
 <link rel="import" href="../bower_components/app-layout/app-drawer-layout/app-drawer-layout.html">
 <link rel="import" href="../bower_components/app-layout/app-header/app-header.html">
 <link rel="import" href="../bower_components/app-layout/app-header-layout/app-header-layout.html">
@@ -8,12 +7,8 @@
 <link rel="import" href="../bower_components/app-route/app-location.html">
 <link rel="import" href="../bower_components/app-route/app-route.html">
 <link rel="import" href="../bower_components/iron-pages/iron-pages.html">
-<!-- <link rel="import" href="../bower_components/iron-selector/iron-selector.html"> -->
-<!-- <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html"> -->
-<!-- <link rel="import" href="my-icons.html"> -->
 
 <link rel="lazy-import" href="my-dashboard.html">
-<link rel="lazy-import" href="my-alive.html">
 <link rel="lazy-import" href="my-view404.html">
 <link rel="import" href="shared-styles.html">
 
@@ -26,26 +21,20 @@
         display: block;
       }
 
-      app-drawer-layout:not([narrow]) [drawer-toggle] {
-        display: none;
-      }
-
-      app-header {
+      .header {
         align-items: center;
         background-color: var(--app-light-red);
-        color: var(--app-white);
         display: flex;
         min-height: 60px;
-        text-align: center;
-      }
-
-      app-toolbar {
-        justify-content: space-between
+        justify-content: space-between;
+        position: absolute;
+        top: 0;
+        width: 100%;
       }
 
       .navbar {
         font-size: 1rem;
-        height: 100%;
+        height: 60px;
         text-align: center;
         display: flex;
       }
@@ -69,26 +58,17 @@
     <app-route route="{{route}}" pattern="[[rootPath]]:page" data="{{routeData}}" tail="{{subroute}}">
     </app-route>
 
-    <app-drawer-layout fullbleed narrow="{{narrow}}">
-      <!-- Main content -->
-      <app-header-layout has-scrolling-region class="bg-gradient">
-        <app-header slot="header" condenses reveals effects="waterfall">
-          <app-toolbar>
-            <img src="images/logo_monopoly.png">
-            <nav class="navbar navbar-light bg-light">
-              <a class="navbar-brand" href="#">option</a>
-              <a class="navbar-brand" href="#">option1</a>
-              <a class="navbar-brand" href="#">option2</a>
-            </nav>
-            <!-- <div main-title>Monopoly</div> -->
-          </app-toolbar>
-        </app-header>
-      </app-header-layout>
-    </app-drawer-layout>
+    <header class="header">
+      <img src="images/logo_monopoly.png">
+      <nav class="navbar navbar-light bg-light">
+        <a class="navbar-brand" href="#">option</a>
+        <a class="navbar-brand" href="#">option1</a>
+        <a class="navbar-brand" href="#">option2</a>
+      </nav>
+    </header>
 
     <iron-pages selected="[[page]]" attr-for-selected="name" fallback-selection="view404" role="main">
       <my-dashboard name="dashboard"></my-dashboard>
-      <my-alive name="alive"></my-alive>
       <my-view404 name="view404"></my-view404>
     </iron-pages>
 

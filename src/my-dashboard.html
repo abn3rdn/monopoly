@@ -1,8 +1,8 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
-<!-- <link rel="import" href="../bower_components/iron-ajax/iron-ajax.html"> -->
 <link rel="import" href="../bower_components/polymer/lib/elements/dom-repeat.html">
 <link rel="import" href="../bower_components/app-storage/app-localstorage/app-localstorage-document.html">
 <link rel="import" href="my-new-player.html">
+<link rel="import" href="my-players-table.html">
 <link rel="import" href="shared-styles.html">
 
 <dom-module id="my-dashboard">
@@ -10,39 +10,36 @@
     <style include="shared-styles">
       :host {
         display: block;
-        padding: 10px;
+        height: 90vh;
       }
       .container {
-        display: flex;
-        justify-content: space-between;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
         max-width: 1366px;
         padding: 0 16px;
+        height: inherit;
+      }
+      .players {
+        grid-column: 1/3;
+      }
+      .new_player {
+        grid-column: 3/4;
+      }
+
+      .players,
+      .new_player {
+        justify-self: center;
       }
     </style>
 
-    <div class="container">
-      <div class="players"></div>
+    <div class="container bg-gradient">
+      <div class="players">
+        <my-players-table></my-players-table>
+      </div>
       <div class="new_player">
         <my-new-player></my-new-player>
       </div>
     </div>
-    <!-- <iron-ajax auto url="https://rickandmortyapi.com/api/character" handle-as="json" on-response="handleResponse" last-response="{{characters}}"
-    debounce-duration="300"></iron-ajax> -->
-
-    <!-- <div class="cards">
-      <template is="dom-repeat" items="[[characters.results]]" as="character">
-          <a href="[[rootPath]]detail?id=[[character.id]]">
-            <div class="card" class$="{{_getClass(character.status)}}">
-              <img src="[[character.image]]">
-              <h2>[[character.name]]</h2>
-              <p class="specie">[[character.species]]</p>
-              <p class="status">[[character.status]]</p>
-            </div>
-          </a>
-      </template> -->
-      <!-- <app-localstorage-document key="characters" data="{{characters}}">
-      </app-localstorage-document> -->
-    <!-- </div> -->
   </template>
 
   <script>
@@ -60,7 +57,6 @@
       handleResponse(e) {
         console.log(this.players);
       }
-
 
     }
 

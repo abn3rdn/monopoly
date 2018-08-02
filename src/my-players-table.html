@@ -1,0 +1,115 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/polymer/lib/elements/dom-if.html">
+<link rel="import" href="../bower_components/polymer/lib/elements/dom-repeat.html">
+<link rel="import" href="redux/redux-mixin.html">
+
+<dom-module id="my-players-table">
+  <template>
+    <style>
+      :host {
+        display: block;
+        margin: 1rem;
+      }
+
+      table {
+        border: 2px solid #ffffff;
+        background-color: #EEEEEE;
+        border-collapse: collapse;
+        text-align: center;
+        min-width: 600px;
+        width: 100%;
+      }
+
+      table thead {
+        background: var(--app-dark-red);
+        color: #ffffff;
+      }
+
+      table tbody tr {
+        border: 1px solid #000000;
+      }
+
+      table tbody tr:nth-child(even) {
+        background: var(--app-light-red);
+        border: none;
+        color: #ffffff;
+      }
+    </style>
+    <div class="container">
+        <template is="dom-if" if="{{showTable}}">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Name</th>
+              <th scope="col">Money</th>
+              <th scope="col">Properties</th>
+            </tr>
+          </thead>
+          <tbody>
+            <template is="dom-repeat" items="[[players]]" as="player">
+              <tr>
+                <td>[[index]]</td>
+                <td>[[player.name]]</td>
+                <td>[[player.money]]</td>
+                <td>[[player.properties.length]]</td>
+              </tr>
+            </template>
+          </tbody>
+        </table>
+      </template>
+    </div>
+  </template>
+
+  <script>
+    class MyPlayersTable extends ReduxMixin(Polymer.Element) {
+      static get is() { return 'my-players-table'; }
+      static get properties() {
+        return {
+          players: {
+            type: Array,
+            statePath: 'players',
+            observer: '_playersLength'
+          },
+          showTable: {
+            type: Boolean,
+            value: false
+          }
+        };
+      }
+
+      // function for dynamic sorting
+      compareValues(key, order = 'asc') {
+        return function (a, b) {
+          if (!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) {
+            // property doesn't exist on either object
+            return 0;
+          }
+
+          const varA = (typeof a[key] === 'string') ?
+            a[key].toUpperCase() : a[key];
+          const varB = (typeof b[key] === 'string') ?
+            b[key].toUpperCase() : b[key];
+
+          let comparison = 0;
+          if (varA > varB) {
+            comparison = 1;
+          } else if (varA < varB) {
+            comparison = -1;
+          }
+          return (
+            (order == 'desc') ? (comparison * -1) : comparison
+          );
+        };
+      }
+      
+      _playersLength() {
+        if( this.players.length > 0) {
+          this.showTable = true;
+        }
+      }
+    }
+
+    window.customElements.define(MyPlayersTable.is, MyPlayersTable);
+  </script>
+</dom-module>
