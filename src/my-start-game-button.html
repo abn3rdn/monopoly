@@ -1,0 +1,86 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+
+<dom-module id="my-start-game-button">
+    <template>
+        <style>
+            :host {
+                display: block;
+                margin: 1rem;
+                --button-bg-color: #ffffff;
+                --button-text-color: #FF2029;
+                --button-padding: 2rem 1rem;
+                --button-font-size: 25px;
+            }
+
+            #single {
+                height: 60px;
+                width: 600px;
+                background: #006680;
+                text-align: center;
+                font-size: 2.3rem;
+                background-size: 1px 300%;
+                -webkit-transition: 0.5s;
+                transition: 0.5s;
+                color: white;
+                /* font-family: shadows into light; */
+                cursor: pointer;
+                font-weight: 600;
+            }
+
+            #single:hover {
+                background: #7A0000;
+                color: white;
+                -webkit-transform: rotate(-1deg);
+                transform: rotate(-1deg);
+            }
+        </style>
+
+        <paper-button id="single" class="button" toggles raised on-click="_addOnClick">START</paper-button>
+
+    </template>
+
+    <script>
+        // eslint-disable-next-line no-undef
+        class MyStartGameButton extends ReduxMixin(Polymer.Element) {
+            static get is() {
+                return 'my-start-game-button';
+            }
+
+            static get properties() {
+                return {
+                    gameStarted: {
+                        type: Boolean,
+                        statePath: 'gameStarted',
+                    },
+                };
+            }
+
+            static get actions() {
+                return {
+                    start: (player) => {
+                        return {
+                            type: 'GAME_STARTED',
+                            player: player,
+                        };
+                    },
+                };
+            }
+
+            _addOnClick(e) {
+                this._dispatchEvent('game-started', true);
+            }
+
+            _dispatchEvent(event, detail, bubbles = true) {
+                this.dispatchEvent(new CustomEvent(event, {
+                    bubbles: bubbles,
+                    composed: true,
+                    detail: detail
+                }));
+            }
+
+        }
+
+        window.customElements.define(MyStartGameButton.is, MyStartGameButton);
+    </script>
+</dom-module>

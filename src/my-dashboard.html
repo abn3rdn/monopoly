@@ -2,6 +2,7 @@
 <link rel="import" href="../bower_components/polymer/lib/elements/dom-repeat.html">
 <link rel="import" href="../bower_components/app-storage/app-localstorage/app-localstorage-document.html">
 <link rel="import" href="my-new-player.html">
+<link rel="import" href="my-start-game-button.html">
 <link rel="import" href="my-players-table.html">
 <link rel="import" href="shared-styles.html">
 <link rel="import" href="my-player-card.html">
@@ -16,6 +17,7 @@
       .container {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(2, 1fr);
         max-width: 1366px;
         padding: 0 16px;
         height: inherit;
@@ -26,9 +28,14 @@
       .new_player {
         grid-column: 3/4;
       }
+      .start_button {
+        grid-column: 1/4;
+        grid-row: 2 / 3;
+      }
 
       .players,
-      .new_player {
+      .new_player,
+      .start_button {
         justify-self: center;
       }
     </style>
@@ -39,6 +46,9 @@
       </div>
       <div class="new_player">
         <my-new-player></my-new-player>
+      </div>
+      <div class="start_button">
+          <my-start-game-button></my-start-game-button>
       </div>
     </div>
   </template>
