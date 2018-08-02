@@ -1,5 +1,6 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../bower_components/polymer/lib/elements/dom-repeat.html">
+<link rel="import" href="../bower_components/polymer/lib/elements/dom-if.html">
 <link rel="import" href="../bower_components/app-storage/app-localstorage/app-localstorage-document.html">
 <link rel="import" href="my-new-player.html">
 <link rel="import" href="my-start-game-button.html">
@@ -48,7 +49,12 @@
         <my-new-player></my-new-player>
       </div>
       <div class="start_button">
+        <template is="dom-if" if={{!started}}>
           <my-start-game-button></my-start-game-button>
+        </template>
+        <template is="dom-if" if={{started}}>
+          <my-players-table>
+        </template>
       </div>
     </div>
   </template>
@@ -73,12 +79,27 @@
               money: 500000,
               properties: [1, 2, 12]
             }
+          },
+          started: {
+            type: Boolean,
+            value: false
           }
         };
       }
 
+      connectedCallback() {
+        super.connectedCallback();
+        console.log('my-human-vs-computer created!');
+        this.addEventListener('game-started', this._gameStarted);
+      }
+
       handleResponse(e) {
         console.log(this.players);
+      }
+
+      _gameStarted() {
+        console.log('Game started');
+        this.started = true;
       }
 
     }
